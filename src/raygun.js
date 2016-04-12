@@ -255,7 +255,7 @@ var raygunFactory = function (window, $, undefined) {
             _groupingKeyCallback = callback;
             return Raygun;
         },
-        
+
         onBeforeXHR: function (callback) {
             _beforeXHRCallback = callback;
             return Raygun;
@@ -270,11 +270,11 @@ var raygunFactory = function (window, $, undefined) {
         },
 
         trackEvent: function (type, options) {
-          if (Raygun.RealUserMonitoring  !== undefined && _rum) {
-              if (type === 'pageView' && options.path) {
-                _rum.virtualPageLoaded(options.path);
-              }
-          }
+            if (Raygun.RealUserMonitoring !== undefined && _rum) {
+                if (type === 'pageView' && options.path) {
+                    _rum.virtualPageLoaded(options.path);
+                }
+            }
         }
 
     };
@@ -542,9 +542,9 @@ var raygunFactory = function (window, $, undefined) {
                 }
             } else if (Object.prototype.toString.call(propertyValue) !== '[object Function]') {
                 if (typeof parentKey !== 'undefined') {
-                  filteredObject[propertyName] = filterValue(propertyName, propertyValue);
+                    filteredObject[propertyName] = filterValue(propertyName, propertyValue);
                 } else if (propertyName === 'OccurredOn') {
-                  filteredObject[propertyName] = propertyValue;
+                    filteredObject[propertyName] = propertyValue;
                 }
             }
         }
@@ -662,6 +662,12 @@ var raygunFactory = function (window, $, undefined) {
             }
         }
 
+        if (!options.tags) {
+            options.tags = [];
+        }
+
+        options.tags.push('UnhandledException');
+
         var screen = window.screen || {width: getViewPort().width, height: getViewPort().height, colorDepth: 8};
         var custom_message = options.customData && options.customData.ajaxErrorMessage;
 
@@ -683,7 +689,7 @@ var raygunFactory = function (window, $, undefined) {
         var finalMessage = custom_message || stackTrace.message || options.status || 'Script error';
 
         if (finalMessage && (typeof finalMessage === 'string')) {
-          finalMessage = finalMessage.substring(0, 512);
+            finalMessage = finalMessage.substring(0, 512);
         }
 
         var payload = {
@@ -764,7 +770,7 @@ var raygunFactory = function (window, $, undefined) {
         var xhr;
 
         xhr = new window.XMLHttpRequest();
-        
+
         if ("withCredentials" in xhr) {
             // XHR for Chrome/Firefox/Opera/Safari.
             xhr.open(method, url, true);
@@ -790,9 +796,9 @@ var raygunFactory = function (window, $, undefined) {
     // Make the actual CORS request.
     function makePostCorsRequest(url, data) {
         var xhr = createCORSRequest('POST', url, data);
-        
+
         if (typeof _beforeXHRCallback === 'function') {
-          _beforeXHRCallback(xhr);
+            _beforeXHRCallback(xhr);
         }
 
         if ('withCredentials' in xhr) {
